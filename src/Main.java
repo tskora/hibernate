@@ -22,11 +22,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main main = new Main();
-		main.addNewData();
-		main.printSchools();
+		//main.addNewData();
 		main.addTeachers();
-		main.executeQueries();
-		main.updateSchool();
+		//main.executeQueries();
+		//main.updateSchool();
 		main.printSchools();
 		main.close();
 	}
@@ -137,6 +136,7 @@ public class Main {
 	private void executeQueries() {
 		Transaction transaction = session.beginTransaction();
 		
+		query0();
         query1();
 		query2();
 		query3();
@@ -148,10 +148,19 @@ public class Main {
 	}
 	
 	private void updateSchool() {
-		Query query = session.createQuery("UPDATE School set address = :address WHERE id= :id");
-		query.setString("address","ul. Zmieniona");
-		query.setLong("id", 1);
+		Transaction transaction = session.beginTransaction();
+
+		Query query = session.createQuery("UPDATE School s set s.address = :address WHERE s.id= :id").setString("address","ul. ZmienionaZmieniona").setLong("id", 3);
 		query.executeUpdate();
+		
+		transaction.commit();
+	}
+	
+	private void query0() {
+		String hql = "FROM School";
+		Query query = session.createQuery(hql);
+		List results = query.list();
+		System.out.println(results);
 	}
 	
 	private void query1() {
